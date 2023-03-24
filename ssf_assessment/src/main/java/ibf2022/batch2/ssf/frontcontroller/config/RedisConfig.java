@@ -26,6 +26,9 @@ public class RedisConfig {
     @Value("${spring.data.redis.password}")
     private String redisPassword;
 
+    @Value("${spring.data.redis.database}")
+    private int redisDatabase;
+
     @Bean("authentication")
     @Scope("singleton")
     public RedisTemplate<String, String> redisTemplate() {
@@ -37,7 +40,7 @@ public class RedisConfig {
             config.setUsername(redisUser);
             config.setPassword(redisPassword);
         }
-        config.setDatabase(0);
+        config.setDatabase(redisDatabase);
 
         final JedisClientConfiguration jedisClient = JedisClientConfiguration.builder().build();
 
