@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+	TODO: Task 1, Task 2, Task 3
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .error {
+        color: crimson;
+      }
+    </style>
+    <title>Login</title>
+  </head>
+  <body>
+    <h2>Please Login</h2>
+
+    <form data-th-action="@{/login}" method="post" data-th-object="${profile}">
+      <table>
+        <tr>
+          <td>
+            <label for="username">Username:</label>
+          </td>
+          <td>
+            <input
+              type="text"
+              id="username"
+              data-th-field="*{username}"
+              size="30"
+              placeholder="Please type in your username" />
+          </td>
+        </tr>
+        <tr>
+          <div
+            data-th-if="${#fields.hasErrors('username')}"
+            data-th-errors="*{username}"
+            class="error"></div>
+        </tr>
+        <tr>
+          <td>
+            <label for="password">Password:</label>
+          </td>
+          <td>
+            <input
+              type="password"
+              id="password"
+              data-th-field="*{password}"
+              size="30"
+              placeholder="Please type in your password" />
+          </td>
+        </tr>
+        <tr>
+          <div
+            data-th-if="${#fields.hasErrors('password')}"
+            data-th-errors="*{password}"
+            class="error"></div>
+        </tr>
+        <tr data-th-if="${notAuthenticated}">
+          <td data-th-text="${phrase}"></td>
+          <td>
+            <input
+              type="text"
+              data-th-field="*{captchaAnswer}"
+              placeholder="Answer in integer only"
+              size="30" />
+          </td>
+        </tr>
+        <tr>
+          <div
+            data-th-if="${#fields.hasErrors('captchaAnswer')}"
+            data-th-errors="*{captchaAnswer}"
+            class="error"></div>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <button>Login</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>
