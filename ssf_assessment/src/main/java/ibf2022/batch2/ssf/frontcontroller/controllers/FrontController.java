@@ -88,6 +88,7 @@ public class FrontController {
 					session.setAttribute("answer", answer);
 					System.out.println("Answer >>>>>>>>>" + answer);
 					model.addAttribute("phrase", phrase);
+
 					model.addAttribute("profile", profile);
 					attemps.addAttemps();
 
