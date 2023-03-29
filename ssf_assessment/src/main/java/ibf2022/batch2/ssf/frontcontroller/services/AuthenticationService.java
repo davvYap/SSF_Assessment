@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import ibf2022.batch2.ssf.frontcontroller.model.Captcha;
 import ibf2022.batch2.ssf.frontcontroller.respositories.AuthenticationRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -24,11 +27,17 @@ public class AuthenticationService {
 	@Autowired
 	private AuthenticationRepository aRepo;
 
+	@Value("${chuck.auth.server.url}")
+	private String CHUCK_SERVER_URL;
+
 	// TODO: Task 2
 	// DO NOT CHANGE THE METHOD'S SIGNATURE
 	// Write the authentication method in here
 	public boolean authenticate(String username, String password) throws Exception {
-		String url = "https://auth.chuklee.com/api/authenticate";
+		// String url = "https://auth.chuklee.com/api/authenticate";
+		String url = UriComponentsBuilder.fromUriString(CHUCK_SERVER_URL)
+				.path("/api/authenticate")
+				.toUriString();
 
 		JsonObject profile = Json.createObjectBuilder()
 				.add("username", username)
@@ -79,69 +88,82 @@ public class AuthenticationService {
 		return errors;
 	}
 
-	public int getRandNum() {
-		Random rand = new Random();
-		int randInt = rand.nextInt(1, 51);
-		return randInt;
-	}
+	// IMPORTANT All method moved to Captcha class
+	// public int getRandNum() {
+	// Random rand = new Random();
+	// int randInt = rand.nextInt(1, 51);
+	// return randInt;
+	// }
 
-	public String getOperator() {
-		String[] mathOperators = { "+", "-", "*", "/" };
-		Random rand = new Random();
-		int randIndex = rand.nextInt(0, 4);
-		return mathOperators[randIndex];
+	// public String getOperator() {
+	// String[] mathOperators = { "+", "-", "*", "/" };
+	// Random rand = new Random();
+	// int randIndex = rand.nextInt(0, 4);
+	// return mathOperators[randIndex];
 
-	}
+	// }
 
-	public String getPhrase(int num1, int num2, String operator) {
-		String phrase = "";
-		if (num1 > num2) {
-			phrase = "What is " + num1 + " " + operator + " " + num2 + "?";
-		} else {
-			phrase = "What is " + num2 + " " + operator + " " + num1 + "?";
-		}
-		return phrase;
-	}
+	// public String getPhrase(int num1, int num2, String operator) {
+	// String phrase = "";
+	// if (num1 > num2) {
+	// phrase = "What is " + num1 + " " + operator + " " + num2 + "?";
+	// } else {
+	// phrase = "What is " + num2 + " " + operator + " " + num1 + "?";
+	// }
+	// return phrase;
+	// }
 
-	public int getCaptchaAnswer(int num1, int num2, String operator) {
-		int answer = 0;
-		if (num1 > num2) {
-			switch (operator) {
-				case "+":
-					answer = num1 + num2;
-					break;
-				case "-":
-					answer = num1 - num2;
-					break;
-				case "*":
-					answer = num1 * num2;
-					break;
-				case "/":
-					answer = num1 / num2;
-					break;
-				default:
-					answer = 0;
-			}
-		} else {
-			switch (operator) {
-				case "+":
-					answer = num2 + num1;
-					break;
-				case "-":
-					answer = num2 - num1;
-					break;
-				case "*":
-					answer = num2 * num1;
-					break;
-				case "/":
-					answer = num2 / num1;
-					break;
-				default:
-					answer = 0;
-			}
-		}
-		return answer;
-	}
+	// public String getPhrase(Captcha c) {
+	// String phrase = "";
+	// if (c.getFirstNum() > c.getSecNum()) {
+	// phrase = "What is %d %s %d?".formatted(c.getFirstNum(), c.getOperator(),
+	// c.getSecNum());
+	// } else {
+	// phrase = "What is %d %s %d?".formatted(c.getSecNum(), c.getOperator(),
+	// c.getFirstNum());
+	// }
+	// return phrase;
+	// }
+
+	// public int getCaptchaAnswer(int num1, int num2, String operator) {
+	// int answer = 0;
+	// if (num1 > num2) {
+	// switch (operator) {
+	// case "+":
+	// answer = num1 + num2;
+	// break;
+	// case "-":
+	// answer = num1 - num2;
+	// break;
+	// case "*":
+	// answer = num1 * num2;
+	// break;
+	// case "/":
+	// answer = num1 / num2;
+	// break;
+	// default:
+	// answer = 0;
+	// }
+	// } else {
+	// switch (operator) {
+	// case "+":
+	// answer = num2 + num1;
+	// break;
+	// case "-":
+	// answer = num2 - num1;
+	// break;
+	// case "*":
+	// answer = num2 * num1;
+	// break;
+	// case "/":
+	// answer = num2 / num1;
+	// break;
+	// default:
+	// answer = 0;
+	// }
+	// }
+	// return answer;
+	// }
 
 	public List<ObjectError> validateAnswer(Boolean bool) {
 		List<ObjectError> errors = new LinkedList<>();

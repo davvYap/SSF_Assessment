@@ -17,8 +17,9 @@ public class AuthenticationRepository {
 	private RedisTemplate<String, String> redisTemplate;
 
 	public void disableUser(String username) {
-		redisTemplate.opsForValue().set(username, username);
-		redisTemplate.opsForValue().getAndExpire(username, 1800, TimeUnit.SECONDS);
+		redisTemplate.opsForValue().set(username, username, 1800, TimeUnit.SECONDS);
+		// redisTemplate.opsForValue().set(username, username);
+		// redisTemplate.opsForValue().getAndExpire(username, 1800, TimeUnit.SECONDS);
 	}
 
 	public boolean isLocked(String username) {

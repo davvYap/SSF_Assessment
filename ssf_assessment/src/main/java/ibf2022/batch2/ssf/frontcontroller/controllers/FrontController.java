@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ibf2022.batch2.ssf.frontcontroller.model.Attemp;
+import ibf2022.batch2.ssf.frontcontroller.model.Captcha;
 import ibf2022.batch2.ssf.frontcontroller.model.Profile;
 import ibf2022.batch2.ssf.frontcontroller.services.AuthenticationService;
 import jakarta.servlet.http.HttpSession;
@@ -43,7 +44,7 @@ public class FrontController {
 
 		if (aService.isLocked(profile.getUsername())) {
 			model.addAttribute("loginName", profile.getUsername());
-			return "View2";
+			return "view2";
 		}
 
 		Attemp attemps = (Attemp) session.getAttribute("attemps");
@@ -78,17 +79,17 @@ public class FrontController {
 					profile.setAuthenticated(false);
 					session.setAttribute("profile", profile);
 
-					int num1 = aService.getRandNum();
-					int num2 = aService.getRandNum();
-					String operator = aService.getOperator();
-					System.out.println(aService.debug(num1, num2, operator));
-					String phrase = aService.getPhrase(num1, num2, operator);
-					int answer = aService.getCaptchaAnswer(num1, num2, operator);
+					// int num1 = aService.getRandNum();
+					// int num2 = aService.getRandNum();
+					// String operator = aService.getOperator();
+					// String phrase = aService.getPhrase(num1, num2, operator);
+					// int answer = aService.getCaptchaAnswer(num1, num2, operator);
 					// IMPORTANT set the answer to session
-					session.setAttribute("answer", answer);
-					System.out.println("Answer >>>>>>>>>" + answer);
-					model.addAttribute("phrase", phrase);
-
+					Captcha c = new Captcha();
+					System.out.println(aService.debug(c.getFirstNum(), c.getSecNum(), c.getOperator()));
+					session.setAttribute("answer", c.getAnswer());
+					System.out.println("Answer >>>>>>>>>" + c.getAnswer());
+					model.addAttribute("phrase", c.toString());
 					model.addAttribute("profile", profile);
 					attemps.addAttemps();
 
@@ -118,15 +119,18 @@ public class FrontController {
 						model.addAttribute("notAuthenticated", !authenticated);
 						profile.setAuthenticated(false);
 						session.setAttribute("profile", profile);
-						int num1 = aService.getRandNum();
-						int num2 = aService.getRandNum();
-						String operator = aService.getOperator();
-						System.out.println(aService.debug(num1, num2, operator));
-						String phrase = aService.getPhrase(num1, num2, operator);
-						int answer = aService.getCaptchaAnswer(num1, num2, operator);
-						session.setAttribute("answer", answer);
-						System.out.println("Answer >>>>>>>>>" + answer);
-						model.addAttribute("phrase", phrase);
+
+						// int num1 = aService.getRandNum();
+						// int num2 = aService.getRandNum();
+						// String operator = aService.getOperator();
+						// String phrase = aService.getPhrase(num1, num2, operator);
+						// int answer = aService.getCaptchaAnswer(num1, num2, operator);
+
+						Captcha c = new Captcha();
+						System.out.println(aService.debug(c.getFirstNum(), c.getSecNum(), c.getOperator()));
+						session.setAttribute("answer", c.getAnswer());
+						System.out.println("Answer >>>>>>>>>" + c.getAnswer());
+						model.addAttribute("phrase", c.toString());
 						model.addAttribute("profile", profile);
 						attemps.addAttemps();
 
@@ -143,15 +147,17 @@ public class FrontController {
 					model.addAttribute("notAuthenticated", !authenticated);
 					profile.setAuthenticated(false);
 					session.setAttribute("profile", profile);
-					int num1 = aService.getRandNum();
-					int num2 = aService.getRandNum();
-					String operator = aService.getOperator();
-					System.out.println(aService.debug(num1, num2, operator));
-					String phrase = aService.getPhrase(num1, num2, operator);
-					int answer = aService.getCaptchaAnswer(num1, num2, operator);
-					session.setAttribute("answer", answer);
-					System.out.println("Answer >>>>>>>>>" + answer);
-					model.addAttribute("phrase", phrase);
+
+					// int num1 = aService.getRandNum();
+					// int num2 = aService.getRandNum();
+					// String operator = aService.getOperator();
+					// String phrase = aService.getPhrase(num1, num2, operator);
+					// int answer = aService.getCaptchaAnswer(num1, num2, operator);
+					Captcha c = new Captcha();
+					System.out.println(aService.debug(c.getFirstNum(), c.getSecNum(), c.getOperator()));
+					session.setAttribute("answer", c.getAnswer());
+					System.out.println("Answer >>>>>>>>>" + c.getAnswer());
+					model.addAttribute("phrase", c.toString());
 					model.addAttribute("profile", profile);
 					attemps.addAttemps();
 
